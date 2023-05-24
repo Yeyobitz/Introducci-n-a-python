@@ -1,0 +1,12 @@
+stock = int(input('Ingrese stock de computadores: '))
+i=1
+while True:
+#leer cantidades pedidas de computadores a bodega, y rebajarlos del stock, hasta que no haya suficiente stock
+    pedido=int(input('Pedido ' + str(i) + '='))
+    if pedido<stock:
+        stock-=pedido
+        print('Stock actual=',stock)
+        i+=1
+    else:
+        print('No hay stock suficiente')
+        break
