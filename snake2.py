@@ -146,7 +146,7 @@ class Game:
                 self.score += 1
 
             if self.snake.collide_wall() or self.snake.collide_body():
-                self.game_over = True
+                self.game_over = False
 
             self.clock.tick(self.fps)
             self.draw()
