@@ -3,5 +3,5 @@ texto='SUPERCALIFRAGILISTICOESPIALIDOSO'
 #recibe=texto[2:14:2] #rebana desde el índice 2 hasta el caracterer 13 e irá de 2 en 2
 #recibe=texto[:11] #imprime desde el 0 hasta el 10
 #recibe=texto[7:] #tomará del indice 7 hasta el final 
-recibe=texto[::-1]
-print(recibe)
+recibe=texto[::-1] #imprime el texto al revés
+print(recibe) #imprimimos el texto

@@ -7,10 +7,10 @@
 # Ambos métodos retornan la posición inicial del substring
 # Si el substring no se encuentra, retorna -1
 # Ejemplo:
-texto=input('Ingrese un texto: ').lower()
-busca=input('Qué busca? ')
-encuentra=texto.find(busca)
-if encuentra>=0:
-    print('Se encontró en la posición',encuentra)
+texto=input('Ingrese un texto: ').lower() #convertimos el texto a minusculas
+busca=input('Qué busca? ') #pedimos el substring a buscar
+encuentra=texto.find(busca) #buscamos el substring
+if encuentra>=0: #si se encontró
+    print('Se encontró en la posición',encuentra) #imprimimos la posición
 else:
-    print('No tá')
+    print('No tá') #si no se encontró, imprimimos que no tá
