@@ -116,23 +116,104 @@ class Game:
         self.fps = 10
         self.score = 0
         self.font = pygame.font.SysFont("Arial", 30)
-        self.snake= Snake(self.block_size, self.width // self.block_size, self.height // self.block_size, self.width, self.height)
+        self.snake = Snake(self.block_size, self.width // self.block_size, self.height // self.block_size, self.width, self.height)
         self.food = Food(self.block_size)
         self.food.spawn(self.width // self.block_size, self.height // self.block_size, self.snake.body)
         self.game_over = False
         self.speed_increase_interval = 5  # Increase speed every 5 points
         self.speed_increase_amount = 1  # Increase speed by 1 FPS
+        self.difficulty = None
+        self.title_screen()
+
+    def title_screen(self):
+        # Show the title screen with the game name and options to start the game, select difficulty, or quit
+        while True:
+            self.screen.fill((0, 0, 0))
+            text = self.font.render("Yeyo'Snake", True, (255, 255, 255))
+            text_rect = text.get_rect(center=(self.width // 2, self.height // 2 - 60))
+            self.screen.blit(text, text_rect)
+            start_button = pygame.Rect(self.width // 2 - 100, self.height // 2 - 20, 200, 40)
+            pygame.draw.rect(self.screen, (255, 255, 255), start_button)
+            text = self.font.render("Start Game", True, (0, 0, 0))
+            text_rect = text.get_rect(center=start_button.center)
+            self.screen.blit(text, text_rect)
+            difficulty_button = pygame.Rect(self.width // 2 - 100, self.height // 2 + 40, 200, 40)
+            pygame.draw.rect(self.screen, (255, 255, 255), difficulty_button)
+            text = self.font.render("Select Difficulty", True, (0, 0, 0))
+            text_rect = text.get_rect(center=difficulty_button.center)
+            self.screen.blit(text, text_rect)
+            quit_button = pygame.Rect(self.width // 2 - 100, self.height // 2 + 100, 200, 40)
+            pygame.draw.rect(self.screen, (255, 255, 255), quit_button)
+            text = self.font.render("Quit", True, (0, 0, 0))
+            text_rect = text.get_rect(center=quit_button.center)
+            self.screen.blit(text, text_rect)
+            pygame.display.update()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if start_button.collidepoint(event.pos):
+                        self.difficulty = "easy"
+                        return
+                    elif difficulty_button.collidepoint(event.pos):
+                        self.select_difficulty()
+                    elif quit_button.collidepoint(event.pos):
+                        pygame.quit()
+
+    def select_difficulty(self):
+        # Show the difficulty selection screen with options for easy, medium, and hard
+        while True:
+            self.screen.fill((0, 0, 0))
+            text = self.font.render("Select Difficulty", True, (255, 255, 255))
+            text_rect = text.get_rect(center=(self.width // 2, self.height // 2 - 60))
+            self.screen.blit(text, text_rect)
+            easy_button = pygame.Rect(self.width // 2 - 100, self.height // 2 - 20, 200, 40)
+            pygame.draw.rect(self.screen, (255, 255, 255), easy_button)
+            text = self.font.render("Easy", True, (0, 0, 0))
+            text_rect = text.get_rect(center=easy_button.center)
+            self.screen.blit(text, text_rect)
+            medium_button = pygame.Rect(self.width // 2 - 100, self.height // 2 + 40, 200, 40)
+            pygame.draw.rect(self.screen, (255, 255, 255), medium_button)
+            text = self.font.render("Medium", True, (0, 0, 0))
+            text_rect = text.get_rect(center=medium_button.center)
+            self.screen.blit(text, text_rect)
+            hard_button = pygame.Rect(self.width // 2 - 100, self.height // 2 + 100, 200, 40)
+            pygame.draw.rect(self.screen, (255, 255, 255), hard_button)
+            text = self.font.render("Hard", True, (0, 0, 0))
+            text_rect = text.get_rect(center=hard_button.center)
+            self.screen.blit(text, text_rect)
+            pygame.display.update()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if easy_button.collidepoint(event.pos):
+                        self.difficulty = "easy"
+                        return
+                    elif medium_button.collidepoint(event.pos):
+                        self.difficulty = "medium"
+                        return
+                    elif hard_button.collidepoint(event.pos):
+                        self.difficulty = "hard"
+                        return
+    def draw_grid(self):
+        # Draw the grid lines on the screen
+        for x in range(0, self.width, self.block_size):
+            pygame.draw.line(self.screen, (128, 128, 128), (x, 0), (x, self.height))
+        for y in range(0, self.height, self.block_size):
+            pygame.draw.line(self.screen, (128, 128, 128), (0, y), (self.width, y))
 
     def draw(self):
-        # Draw the game screen with the snake, food, and score
-        self.screen.fill((0, 0, 0))
+        # Draw the game on the screen
+        if self.difficulty == "easy":
+            self.draw_grid()  # Draw the grid lines on top of the black background
+        elif self.difficulty == "hard":
+            self.screen.fill((0, 0, 0))
         self.snake.draw(self.screen)
         self.food.draw(self.screen)
         text = self.font.render(f"Score: {self.score}", True, (255, 255, 255))
-        text_rect = text.get_rect(center=(self.width // 2, 15))
+        text_rect = text.get_rect(topleft=(10, 10))
         self.screen.blit(text, text_rect)
-        rect = pygame.Rect(self.block_size, 2 * self.block_size, self.width - 2 * self.block_size, self.height - 2 * self.block_size)
-        pygame.draw.rect(self.screen, (255, 255, 255), rect, 3)
         pygame.display.update()
 
     def run(self):
@@ -151,14 +232,17 @@ class Game:
                 self.snake.grow()
                 self.score += 1
                 self.food.spawn(self.width // self.block_size, self.height // self.block_size, self.snake.body)
-                
-                # Increase speed every `speed_increase_interval` points
-                if self.score % self.speed_increase_interval == 0:
+
+                # Increase speed every `speed_increase_interval` points for medium difficulty
+                if self.difficulty == "medium" and self.score % self.speed_increase_interval == 0 and self.fps < 30:
+                    self.fps += self.speed_increase_amount
+
+                # Increase speed every `speed_increase_interval` points for hard difficulty
+                elif self.difficulty == "hard" and self.score % self.speed_increase_interval == 0 and self.fps < 50:
                     self.fps += self.speed_increase_amount
 
             if self.snake.collide_wall() or self.snake.collide_body():
                 self.game_over = True
-
 
             self.clock.tick(self.fps)
             self.draw()
@@ -174,7 +258,7 @@ class Game:
         text = self.font.render(f"Score: {self.score}", True, (255, 255, 255))
         text_rect = text.get_rect(center=(self.width // 2, self.height // 2 + 30))
         self.screen.blit(text, text_rect)
-        text = self.font.render(f"Presione ESPACIO para volver a intentar o ESC para salir", True, (255, 255, 255))
+        text = self.font.render(f"Press SPACE to try again or ESC to quit", True, (255, 255, 255))
         text_rect = text.get_rect(center=(self.width // 2, self.height // 2 + 90))
         self.screen.blit(text, text_rect)
         pygame.display.update()
@@ -186,13 +270,8 @@ class Game:
                     if event.key == pygame.K_SPACE:
                         self.__init__()
                         self.run()
-                        return
                     elif event.key == pygame.K_ESCAPE:
                         pygame.quit()
-
-    def quit(self):
-        # Quit the game
-        pygame.quit()
 
 
 
