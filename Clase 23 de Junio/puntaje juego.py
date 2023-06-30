@@ -49,9 +49,9 @@ def aciertos():
                 while puntos <= 0:
                     puntos = int(input('Error, ingrese los puntos de acierto: '))
                 suma += puntos
-                continuar = input('Desea continuar? (s/n): ')
+                continuar = input('Desea continuar? (s/n): ').lower()
                 while continuar != 's' and continuar != 'n':
-                    continuar = input('Error, desea continuar? (s/n): ')
+                    continuar = input('Error, desea continuar? (s/n): ').lower()
             if suma > 100:
                 suma += 5
             return suma

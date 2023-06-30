@@ -2,9 +2,7 @@
 Una Salmonera necesita una aplicación computacional, para gestionar sus ventas de su recurso salmón. 
 
 Usando funciones, realizar lo que se indica a continuación: 
-
  
-
 Todo lo siguiente se ejecuta hasta elegir la opción s: 
 
 Escribir en pantalla estas 5 líneas: 
